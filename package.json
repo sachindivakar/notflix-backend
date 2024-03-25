@@ -9,7 +9,7 @@
     "build": "tsc",
     "migrate": "knex migrate:latest --knexfile src/knexfile.js",
     "migrate:rollback": "knex migrate:rollback --knexfile src/knexfile.js",
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest --detectOpenHandles",
     "prepare": "husky"
   },
   "lint-staged": {
