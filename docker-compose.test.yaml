@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  app-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    ports:
+      - "3000:3000"
+    depends_on:
+      dbpg-test:
+        condition: service_healthy
+    environment:
+      - DB_HOST=dbpg-test
+      - DB_USER=devuser
+      - DB_PASS=changeme
+      - DB_NAME=notdb
+      - KEY_FILE=./gauth.json
+      - BUCKET_NAME=notflix
+    command: npm run test  
+  dbpg-test:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+      - POSTGRES_DB=notdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "devuser", "-d","notdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
