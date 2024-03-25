@@ -14,7 +14,12 @@ module.exports = {
   globalTeardown: "./jest.globalTeardown.ts", // path to your global teardown file
   testMatch: ["**/__tests__/**/*.ts", "**/?(*.)+(spec|test).ts"],
   transform: {
-    "^.+\\.(ts|tsx)$": "ts-jest",
+    "^.+\\.ts$": [
+      "ts-jest",
+      {
+        /* ts-jest config goes here */
+      },
+    ],
   },
   setupFilesAfterEnv: ["./jest.setup.js"],
 };
